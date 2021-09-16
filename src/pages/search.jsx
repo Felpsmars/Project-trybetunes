@@ -10,6 +10,10 @@ class Search extends Component {
     };
   }
 
+  handleOnClick = () => {
+
+  }
+
   handleChange = ({ target: { value } }) => {
     this.setState({
       name: value,
