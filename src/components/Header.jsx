@@ -30,6 +30,9 @@ class Header extends Component {
     return (
       <header data-testid="header-component">
         <p data-testid="header-user-name">{ name }</p>
+        <Link data-testid="link-to-search" to="/search">Pesquisar</Link>
+        <Link data-testid="link-to-favorites" to="/favorites">Favoritas</Link>
+        <Link data-testid="link-to-profile" to="/profile">Profile</Link>
       </header>
     );
   }
