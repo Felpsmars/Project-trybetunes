@@ -12,8 +12,8 @@ export default class AlbumComp extends Component {
     } } = this.props;
 
     return (
-      <div className="albumDisplay">
-        <div className="linkAlbum">
+      <div>
+        <div>
 
           <Link
             data-testid={ `link-to-album-${collectionId}` }
@@ -24,7 +24,7 @@ export default class AlbumComp extends Component {
               alt="Album cover"
             />
           </Link>
-          <div className="albumInfo">
+          <div>
             <h4>{ artistName }</h4>
             <h5>{ collectionName }</h5>
           </div>
