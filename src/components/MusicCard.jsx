@@ -1,9 +1,44 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import LoadingComp from './LoadingComp';
+import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class MusicCard extends Component {
+  constructor() {
+    super();
+    this.state = {
+      loading: false,
+      favorites: [],
+    };
+  }
+
+  componentDidMount() {
+    this.fetchFavorites();
+  }
+
+  handleChange = ({ target: { checked } }) => {
+    const { music } = this.props;
+
+    this.setState({
+      loading: true,
+    });
+
+    if (checked) {
+      addSong(music).then(() => {
+        this.setState({ loading: false });
+      });
+    }
+    this.fetchFavorites();
+  }
+
+  fetchFavorites = () => {
+    getFavoriteSongs()
+      .then((data) => this.setState({ favorites: data }));
+  }
+
   render() {
-    const { music: { trackName, previewUrl } } = this.props;
+    const { music: { trackName, previewUrl, trackId } } = this.props;
+    const { loading, favorites } = this.state;
     return (
       <div>
         <h3>{ trackName }</h3>
@@ -14,13 +49,30 @@ class MusicCard extends Component {
           <code>audio</code>
           .
         </audio>
+        {loading ? <LoadingComp />
+          : (
+            <label htmlFor="favorite-checkbox">
+              Favorita
+              <input
+                type="checkbox"
+                onChange={ this.handleChange }
+                id="favorite-checkbox"
+                checked={ favorites.some((music) => music.trackId === trackId) }
+                data-testid={ `checkbox-music-${trackId}` }
+              />
+            </label>
+          )}
       </div>
     );
   }
 }
 
 MusicCard.propTypes = {
-  music: PropTypes.objectOf(PropTypes.object).isRequired,
+  music: PropTypes.shape({
+    trackName: PropTypes.string.isRequired,
+    previewUrl: PropTypes.string.isRequired,
+    trackId: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 export default MusicCard;

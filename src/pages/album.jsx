@@ -24,16 +24,16 @@ class Album extends Component {
   }
 
   async handleApiRequest(id) {
-    const dataApi = await getMusics(id);
+    const musicApi = await getMusics(id);
     this.setState({
-      artistName: dataApi[0].artistName,
-      collectionName: dataApi[0].collectionName,
+      artistName: musicApi[0].artistName,
+      collectionName: musicApi[0].collectionName,
       loading: false,
-      musics: [...dataApi],
+      musics: [...musicApi],
     });
   }
 
-  renderCard = () => {
+  renderCardAlbum = () => {
     const { collectionName, artistName, musics } = this.state;
     return (
       <>
@@ -55,7 +55,7 @@ class Album extends Component {
     return (
       <div data-testid="page-album">
         <Header />
-        {loading ? LoadingComp : this.renderCard()}
+        {loading ? LoadingComp : this.renderCardAlbum()}
       </div>
     );
   }
